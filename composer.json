@@ -1,0 +1,45 @@
+{
+    "name": "hgraca/micro-di",
+    "license": "MIT",
+    "type": "library",
+    "description": "A small dependency injection library that uses reflection and a service locator container, to instantiate and recursively resolve, instantiate and inject dependencies.",
+    "authors": [
+        {
+            "name": "Herberto Graça",
+            "email": "herberto.graca@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Hgraca\\MicroDi\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Hgraca\\MicroDi\\Test\\": "tests/"
+        }
+    },
+    "require": {
+        "php": ">=7.0",
+        "hgraca/cache": "^1.0.0"
+    },
+    "require-dev": {
+    },
+    "suggest": {
+        "phpunit/phpunit": "~5",
+        "phpunit/php-code-coverage": "~3"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+    },
+    "config": {
+        "bin-dir": "vendor/bin"
+    },
+    "scripts": {
+        "post-install-cmd": [],
+        "post-update-cmd": [],
+        "post-create-project-cmd": []
+    }
+}

@@ -1,0 +1,163 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "ee174bae1fa84cc661df394a981c1c72",
+    "content-hash": "b271f5ca72e94cc911d70b67ed768901",
+    "packages": [
+        {
+            "name": "hgraca/cache",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hgraca/php-cache.git",
+                "reference": "2f9c89d8fe0490b7fb389cc24e56900f751169ae"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/2f9c89d8fe0490b7fb389cc24e56900f751169ae",
+                "reference": "2f9c89d8fe0490b7fb389cc24e56900f751169ae",
+                "shasum": ""
+            },
+            "require": {
+                "hgraca/file-system": "^1.2.1",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "doctrine/common": ">=2.5-dev,<2.7-dev",
+                "mockery/mockery": "^0.9",
+                "phpunit/php-code-coverage": "~3",
+                "phpunit/phpunit": "~5"
+            },
+            "suggest": {
+                "doctrine/common": ">=2.5-dev,<2.7-dev - for using the doctrine adapter"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hgraca\\Cache\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Herberto Graca",
+                    "email": "herberto.graca@gmail.com"
+                }
+            ],
+            "description": "A PHP library to handle caching.",
+            "time": "2016-12-03 12:44:01"
+        },
+        {
+            "name": "hgraca/file-system",
+            "version": "1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hgraca/php-file-system.git",
+                "reference": "42b9497fc27c388a9261c15863ee54f16db5e7ef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hgraca/php-file-system/zipball/42b9497fc27c388a9261c15863ee54f16db5e7ef",
+                "reference": "42b9497fc27c388a9261c15863ee54f16db5e7ef",
+                "shasum": ""
+            },
+            "require": {
+                "hgraca/helper": "~1",
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "~3",
+                "phpunit/phpunit": "~5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hgraca\\FileSystem\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Herberto Graca",
+                    "email": "herberto.graca@gmail.com"
+                }
+            ],
+            "description": "A generic PHP library that wraps file system calls.",
+            "time": "2016-12-03 12:39:45"
+        },
+        {
+            "name": "hgraca/helper",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hgraca/php-helper.git",
+                "reference": "ced37e45692c47acf839170e8d2cd07114f5042b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hgraca/php-helper/zipball/ced37e45692c47acf839170e8d2cd07114f5042b",
+                "reference": "ced37e45692c47acf839170e8d2cd07114f5042b",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.0"
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "~3",
+                "phpunit/phpunit": "~5"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hgraca\\Helper\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Herberto Graca",
+                    "email": "herberto.graca@gmail.com"
+                }
+            ],
+            "description": "A generic PHP lib with static classes full of handy functional methods.",
+            "time": "2016-11-20 21:19:08"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": [],
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=7.0"
+    },
+    "platform-dev": []
+}
