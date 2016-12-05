@@ -14,7 +14,7 @@ composer require hgraca/micro-di
 
 ### Factories
 
-The factories used in `Builder::buildFromFactory` need to extend `Hgraca\MicroDi\Contract\FactoryInterface`.
+The factories used in `Builder::buildFromFactory` need to extend `Hgraca\MicroDI\FactoryInterface`.
 
 The method `Builder::buildFromFactory` instantiates the factory and calls the `create` method on it.
 The arguments given to `Builder::buildFromFactory` will be used both when instantiating the factory and when
@@ -45,8 +45,6 @@ a method with  `Builder::call`, will fe filled in the following priority:
 
 ## Todo
 
-- cleanup
 - tests
-- separate injection code from building code into different classes
 - Add `shields.io` badges
 - Add a CS fixer

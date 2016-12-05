@@ -1,5 +1,5 @@
 <?php
-namespace Hgraca\MicroDi\Factory\Contract;
+namespace Hgraca\MicroDI;
 
 interface FactoryInterface
 {
