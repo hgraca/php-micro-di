@@ -1,16 +1,16 @@
 # Project #
 ############
 bin
+/.php_cs.cache
 
 # Phpunit #
 ############
-/clover.xml
+/coverage.clover.xml
 
 # Composer #
 ############
 composer.phar
 vendor
-auth.json
 
 # PHPStorm #
 ############

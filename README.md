@@ -1,4 +1,12 @@
-# Micro DI
+# Hgraca\MicroDI
+[![Author](http://img.shields.io/badge/author-@hgraca-blue.svg?style=flat-square)](https://www.herbertograca.com)
+[![Software License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](LICENSE)
+[![Latest Version](https://img.shields.io/github/release/hgraca/php-micro-di.svg?style=flat-square)](https://github.com/hgraca/php-micro-di/releases)
+[![Total Downloads](https://img.shields.io/packagist/dt/hgraca/micro-di.svg?style=flat-square)](https://packagist.org/packages/hgraca/micro-di)
+
+[![Build Status](https://img.shields.io/scrutinizer/build/g/hgraca/php-micro-di.svg?style=flat-square)](https://scrutinizer-ci.com/g/hgraca/php-micro-di/build)
+[![Coverage Status](https://img.shields.io/scrutinizer/coverage/g/hgraca/php-micro-di.svg?style=flat-square)](https://scrutinizer-ci.com/g/hgraca/php-micro-di/code-structure)
+[![Quality Score](https://img.shields.io/scrutinizer/g/hgraca/php-micro-di.svg?style=flat-square)](https://scrutinizer-ci.com/g/hgraca/php-micro-di)
 
 A small dependency injection library that uses reflection and a service locator container, to instantiate and recursively resolve, instantiate and inject dependencies.
 

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- http://www.phpunit.de/manual/current/en/appendixes.configuration.html -->
 <phpunit
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/5.2/phpunit.xsd"
@@ -11,7 +10,8 @@
         convertNoticesToExceptions="true"
         convertWarningsToExceptions="true"
         processIsolation="false"
-        stopOnFailure="false">
+        stopOnFailure="false"
+>
 
   <testsuites>
     <testsuite name="Unit">
@@ -24,10 +24,5 @@
       <directory suffix=".php">src</directory>
     </whitelist>
   </filter>
-
-  <logging>
-    <log type="coverage-text" target="php://stdout"/>
-    <log type="coverage-clover" target="clover.xml"/>
-  </logging>
 
 </phpunit>
