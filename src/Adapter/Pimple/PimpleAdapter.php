@@ -1,4 +1,5 @@
 <?php
+
 namespace Hgraca\MicroDI\Adapter\Pimple;
 
 use Hgraca\MicroDI\Adapter\Exception\NotAnObjectException;
@@ -16,7 +17,6 @@ final class PimpleAdapter implements ContainerInterface
 
     public function __construct(Container $container, BuilderInterface $builder)
     {
-
         $this->container = $container;
         $this->builder = $builder;
     }
@@ -59,7 +59,7 @@ final class PimpleAdapter implements ContainerInterface
 
     public function addInstance($instance)
     {
-        if (! is_object($instance)) {
+        if (!is_object($instance)) {
             throw new NotAnObjectException();
         }
 

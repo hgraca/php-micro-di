@@ -1,4 +1,5 @@
 <?php
+
 namespace Hgraca\MicroDI;
 
 use Hgraca\MicroDI\Exception\CanNotInstantiateDependenciesException;
@@ -18,7 +19,7 @@ final class DependencyInjector
     /**
      * Executes a callable, building and injecting its dependencies
      *
-     * @param string[]|callable $callable
+     * @param callable|string[] $callable
      * @param array             $arguments
      *
      * @throws CanNotInstantiateDependenciesException

@@ -1,4 +1,5 @@
 <?php
+
 namespace Hgraca\MicroDI;
 
 use Hgraca\Helper\InstanceHelper;
@@ -14,7 +15,7 @@ final class Builder implements BuilderInterface
     /** @var string[] */
     private $dependentStack = [];
 
-    /** @var  string[] */
+    /** @var string[] */
     private $argumentNameStack = [];
 
     /** @var DependencyResolverInterface */
@@ -22,7 +23,7 @@ final class Builder implements BuilderInterface
 
     public function __construct(ContainerInterface $container, DependencyResolverInterface $dependencyResolver)
     {
-        $this->container          = $container;
+        $this->container = $container;
         $this->dependencyResolver = $dependencyResolver;
     }
 
@@ -31,7 +32,7 @@ final class Builder implements BuilderInterface
      */
     public function build(string $class, array $arguments = [])
     {
-        if (! $this->container->hasInstance($class)) {
+        if (!$this->container->hasInstance($class)) {
             $dependencies = $this->buildDependencies([$class, '__construct'], $arguments);
 
             $this->container->addInstance(InstanceHelper::createInstance($class, $dependencies));
@@ -42,7 +43,7 @@ final class Builder implements BuilderInterface
 
     public function buildFromFactory(string $factoryClass, array $arguments = [])
     {
-        if (! is_a($factoryClass, FactoryInterface::class, true)) {
+        if (!is_a($factoryClass, FactoryInterface::class, true)) {
             throw new InvalidArgumentException(
                 "The given factory class $factoryClass must implement " . FactoryInterface::class
             );
@@ -63,7 +64,7 @@ final class Builder implements BuilderInterface
      */
     public function buildDependencies(array $callable, array $arguments = []): array
     {
-        $dependentClass  = is_string($callable[0]) ? $callable[0] : get_class($callable[0]);
+        $dependentClass = is_string($callable[0]) ? $callable[0] : get_class($callable[0]);
         $dependentMethod = $callable[1];
 
         $dependencies = $this->dependencyResolver->resolveDependencies($dependentClass, $dependentMethod);

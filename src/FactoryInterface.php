@@ -1,4 +1,5 @@
 <?php
+
 namespace Hgraca\MicroDI;
 
 interface FactoryInterface

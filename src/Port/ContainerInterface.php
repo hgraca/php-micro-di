@@ -1,7 +1,8 @@
 <?php
+
 namespace Hgraca\MicroDI\Port;
 
-Interface ContainerInterface
+interface ContainerInterface
 {
     public function hasInstance(string $class): bool;
 
