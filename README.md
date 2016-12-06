@@ -54,5 +54,3 @@ a method with  `Builder::call`, will fe filled in the following priority:
 ## Todo
 
 - tests
-- Add `shields.io` badges
-- Add a CS fixer
