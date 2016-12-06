@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "adef154f3247b5f425125b3233540a67",
+    "hash": "7c3d95fd72a59b45a780dcffee7a65c5",
     "content-hash": "dd40e35608108f8d8c0b8a563efdf4fe",
     "packages": [
         {
             "name": "hgraca/cache",
-            "version": "1.0.0",
+            "version": "1.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hgraca/php-cache.git",
-                "reference": "2f9c89d8fe0490b7fb389cc24e56900f751169ae"
+                "reference": "391aab646b8d021899d18d66438e7ddb991c6714"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/2f9c89d8fe0490b7fb389cc24e56900f751169ae",
-                "reference": "2f9c89d8fe0490b7fb389cc24e56900f751169ae",
+                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/391aab646b8d021899d18d66438e7ddb991c6714",
+                "reference": "391aab646b8d021899d18d66438e7ddb991c6714",
                 "shasum": ""
             },
             "require": {
@@ -27,6 +27,7 @@
             },
             "require-dev": {
                 "doctrine/common": ">=2.5-dev,<2.7-dev",
+                "friendsofphp/php-cs-fixer": "^2.0",
                 "mockery/mockery": "^0.9",
                 "phpunit/php-code-coverage": "~3",
                 "phpunit/phpunit": "~5"
@@ -56,7 +57,7 @@
                 }
             ],
             "description": "A PHP library to handle caching.",
-            "time": "2016-12-03 12:44:01"
+            "time": "2016-12-06 19:36:00"
         },
         {
             "name": "hgraca/file-system",
