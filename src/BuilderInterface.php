@@ -37,5 +37,5 @@ interface BuilderInterface
     /**
      * @return mixed[]
      */
-    public function buildDependencies(array $callable, array $arguments = []): array;
+    public function buildDependencies($callable, array $arguments = []): array;
 }

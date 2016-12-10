@@ -2,6 +2,7 @@
 
 namespace Hgraca\MicroDI;
 
+use Closure;
 use Hgraca\Helper\InstanceHelper;
 use Hgraca\MicroDI\DependencyResolver\DependencyResolverInterface;
 use Hgraca\MicroDI\Exception\CanNotInstantiateDependenciesException;
@@ -64,10 +65,19 @@ final class Builder implements BuilderInterface
         return $factory->create($context);
     }
 
-    public function buildDependencies(array $callable, array $arguments = []): array
+    public function buildDependencies($callable, array $arguments = []): array
     {
-        $dependentClass = is_string($callable[0]) ? $callable[0] : get_class($callable[0]);
-        $dependentMethod = $callable[1] ?? '__construct';
+        if ($callable instanceof Closure) {
+            throw new InvalidArgumentException("Closures support is not implemented. The \$callable must be an array or an object with an '__invoke' method.");
+        } elseif (is_array($callable)) {
+            $dependentClass  = is_string($callable[0]) ? $callable[0] : get_class($callable[0]);
+            $dependentMethod = $callable[1] ?? '__construct';
+        } elseif (is_object($callable)) {
+            $dependentClass  = get_class($callable);
+            $dependentMethod = '__invoke';
+        } else {
+            throw new InvalidArgumentException("The \$callable must be an array or an object with an '__invoke' method.");
+        }
 
         $dependencies = $this->dependencyResolver->resolveDependencies($dependentClass, $dependentMethod);
 

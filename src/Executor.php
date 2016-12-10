@@ -4,7 +4,7 @@ namespace Hgraca\MicroDI;
 
 use Hgraca\MicroDI\Exception\CanNotInstantiateDependenciesException;
 
-final class DependencyInjector
+final class Executor
 {
     /**
      * @var BuilderInterface
@@ -19,14 +19,14 @@ final class DependencyInjector
     /**
      * Executes a callable, building and injecting its dependencies
      *
-     * @param callable|string[] $callable
-     * @param array             $arguments
+     * @param callable $callable
+     * @param array    $arguments
      *
      * @throws CanNotInstantiateDependenciesException
      *
      * @return mixed
      */
-    public function execute($callable, array $arguments = [])
+    public function execute(callable $callable, array $arguments = [])
     {
         return call_user_func_array($callable, $this->builder->buildDependencies($callable, $arguments));
     }

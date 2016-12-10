@@ -10,6 +10,7 @@ use Hgraca\MicroDI\BuilderInterface;
 use Hgraca\MicroDI\DependencyResolver\DependencyResolver;
 use Hgraca\MicroDI\Port\ContainerInterface;
 use Hgraca\MicroDI\Test\Stub\Bar;
+use Hgraca\MicroDI\Test\Stub\BarCallable;
 use Hgraca\MicroDI\Test\Stub\Dummy;
 use Hgraca\MicroDI\Test\Stub\DummyFactory;
 use Hgraca\MicroDI\Test\Stub\DummyUser;
@@ -77,7 +78,7 @@ final class BuilderTest extends PHPUnit_Framework_TestCase
      *
      * @small
      */
-    public function buildDependencies()
+    public function buildDependencies_ShouldWorkWithArrayCallable()
     {
         $containerAdapter = $this->setUpContainerAdapter();
         $builder          = $this->setUpBuilder($containerAdapter);
@@ -87,7 +88,31 @@ final class BuilderTest extends PHPUnit_Framework_TestCase
         self::assertFalse($containerAdapter->hasInstance(Dummy::class));
         $givenArg = 'some argument';
 
-        $dependencies = $builder->buildDependencies([Bar::class], ['givenArg' => $givenArg]);
+        $dependencies = $builder->buildDependencies([Bar::class, '__construct'], ['givenArg' => $givenArg]);
+
+        self::assertSame($foo, $dependencies['foo']);
+        self::assertSame($someText, $dependencies['someText']);
+        self::assertInstanceOf(DummyUser::class, $dummyUser = $dependencies['dummyUser']);
+        self::assertInstanceOf(Dummy::class, InstanceHelper::getProtectedProperty($dummyUser, 'dummy'));
+        self::assertSame($givenArg, $dependencies['givenArg']);
+    }
+
+    /**
+     * @test
+     *
+     * @small
+     */
+    public function buildDependencies_ShouldWorkWithObjectCallable()
+    {
+        $containerAdapter = $this->setUpContainerAdapter();
+        $builder          = $this->setUpBuilder($containerAdapter);
+        $containerAdapter->addInstance($foo = new Foo());
+        $containerAdapter->addArgument('someText', $someText = 'some argument text in container');
+        self::assertFalse($containerAdapter->hasInstance(DummyUser::class));
+        self::assertFalse($containerAdapter->hasInstance(Dummy::class));
+        $givenArg = 'some argument';
+
+        $dependencies = $builder->buildDependencies(new BarCallable(), ['givenArg' => $givenArg]);
 
         self::assertSame($foo, $dependencies['foo']);
         self::assertSame($someText, $dependencies['someText']);
@@ -109,6 +134,40 @@ final class BuilderTest extends PHPUnit_Framework_TestCase
         $builder          = $this->setUpBuilder($containerAdapter);
 
         $builder->buildDependencies([Bar::class]);
+    }
+
+    /**
+     * @test
+     *
+     * @small
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function buildDependencies_ShouldThrowExceptionIfClosure()
+    {
+        $containerAdapter = $this->setUpContainerAdapter();
+        $builder          = $this->setUpBuilder($containerAdapter);
+
+        $double = function ($value) {
+            return $value * 2;
+        };
+
+        $builder->buildDependencies($double);
+    }
+
+    /**
+     * @test
+     *
+     * @small
+     *
+     * @expectedException InvalidArgumentException
+     */
+    public function buildDependencies_ShouldThrowExceptionIfNotArrayNorObject()
+    {
+        $containerAdapter = $this->setUpContainerAdapter();
+        $builder          = $this->setUpBuilder($containerAdapter);
+
+        $builder->buildDependencies('some dummy stuff');
     }
 
     /**
