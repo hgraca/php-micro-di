@@ -24,7 +24,7 @@ final class DependencyResolverTest extends PHPUnit_Framework_TestCase
         $cacheMock->shouldNotHaveReceived('save');
         $dependencyResolver = new DependencyResolver($cacheMock);
 
-        self::assertEquals($dummyDependencies, $dependencyResolver->resolveDependencies(Foo::class, 'test'));
+        self::assertEquals($dummyDependencies, $dependencyResolver->resolveDependencies([Foo::class, 'test']));
     }
 
     /**
@@ -40,6 +40,6 @@ final class DependencyResolverTest extends PHPUnit_Framework_TestCase
         $cacheMock->shouldReceive('save');
         $dependencyResolver = new DependencyResolver($cacheMock);
 
-        self::assertEquals($dependencies, $dependencyResolver->resolveDependencies(Foo::class, 'test'));
+        self::assertEquals($dependencies, $dependencyResolver->resolveDependencies([Foo::class, 'test']));
     }
 }

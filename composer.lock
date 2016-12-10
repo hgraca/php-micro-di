@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "hgraca/cache",
-            "version": "1.1.0",
+            "version": "1.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hgraca/php-cache.git",
-                "reference": "0cf6ab2e5ff2c8effcc2ebc93e1f87b6b45e4abf"
+                "reference": "75e2275cd4fe3d880a4ef44a90f08f26bbd6d1c8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/0cf6ab2e5ff2c8effcc2ebc93e1f87b6b45e4abf",
-                "reference": "0cf6ab2e5ff2c8effcc2ebc93e1f87b6b45e4abf",
+                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/75e2275cd4fe3d880a4ef44a90f08f26bbd6d1c8",
+                "reference": "75e2275cd4fe3d880a4ef44a90f08f26bbd6d1c8",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 }
             ],
             "description": "A PHP library to handle caching.",
-            "time": "2016-12-07 20:58:45"
+            "time": "2016-12-10 14:28:53"
         },
         {
             "name": "hgraca/file-system",
@@ -107,16 +107,16 @@
         },
         {
             "name": "hgraca/helper",
-            "version": "1.1.0",
+            "version": "1.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hgraca/php-helper.git",
-                "reference": "366ee8e27c4e55dc61711aa6b11c4ed55558869f"
+                "reference": "9aec77cfad9841a0d22ce736bee03bc6641acf53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hgraca/php-helper/zipball/366ee8e27c4e55dc61711aa6b11c4ed55558869f",
-                "reference": "366ee8e27c4e55dc61711aa6b11c4ed55558869f",
+                "url": "https://api.github.com/repos/hgraca/php-helper/zipball/9aec77cfad9841a0d22ce736bee03bc6641acf53",
+                "reference": "9aec77cfad9841a0d22ce736bee03bc6641acf53",
                 "shasum": ""
             },
             "require": {
@@ -149,7 +149,7 @@
                 }
             ],
             "description": "A generic PHP lib with static classes full of handy functional methods.",
-            "time": "2016-12-05 21:24:37"
+            "time": "2016-12-10 22:40:44"
         }
     ],
     "packages-dev": [

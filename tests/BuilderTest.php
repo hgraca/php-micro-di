@@ -125,6 +125,24 @@ final class BuilderTest extends PHPUnit_Framework_TestCase
      * @test
      *
      * @small
+     */
+    public function buildDependencies_ShouldWorkWithClosure()
+    {
+        $containerAdapter = $this->setUpContainerAdapter();
+        $builder          = $this->setUpBuilder($containerAdapter);
+        $containerAdapter->addArgument('value', $aValue = 3);
+
+        $double = function (int $value) {
+            return $value * 2;
+        };
+
+        self::assertEquals(['value' => $aValue], $builder->buildDependencies($double));
+    }
+
+    /**
+     * @test
+     *
+     * @small
      *
      * @expectedException \Hgraca\MicroDI\Exception\CanNotInstantiateDependenciesException
      */
@@ -134,25 +152,6 @@ final class BuilderTest extends PHPUnit_Framework_TestCase
         $builder          = $this->setUpBuilder($containerAdapter);
 
         $builder->buildDependencies([Bar::class]);
-    }
-
-    /**
-     * @test
-     *
-     * @small
-     *
-     * @expectedException InvalidArgumentException
-     */
-    public function buildDependencies_ShouldThrowExceptionIfClosure()
-    {
-        $containerAdapter = $this->setUpContainerAdapter();
-        $builder          = $this->setUpBuilder($containerAdapter);
-
-        $double = function ($value) {
-            return $value * 2;
-        };
-
-        $builder->buildDependencies($double);
     }
 
     /**

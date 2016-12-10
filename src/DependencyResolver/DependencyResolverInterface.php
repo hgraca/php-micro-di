@@ -4,5 +4,5 @@ namespace Hgraca\MicroDI\DependencyResolver;
 
 interface DependencyResolverInterface
 {
-    public function resolveDependencies(string $dependentClass, string $dependentMethod): array;
+    public function resolveDependencies($callable): array;
 }

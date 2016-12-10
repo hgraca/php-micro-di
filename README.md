@@ -53,4 +53,4 @@ a method with  `Builder::call`, will fe filled in the following priority:
 
 ## Todo
 
-- tests
+- Make it [work for closures](http://stackoverflow.com/questions/19198804/deducing-php-closure-parameters)

@@ -5,7 +5,7 @@ namespace Hgraca\MicroDI\DependencyResolver;
 use Hgraca\Cache\CacheInterface;
 use Hgraca\Cache\Exception\CacheItemNotFoundException;
 use Hgraca\Cache\Null\NullCache;
-use Hgraca\Helper\ClassHelper;
+use Hgraca\Helper\InstanceHelper;
 
 final class DependencyResolver implements DependencyResolverInterface
 {
@@ -17,22 +17,22 @@ final class DependencyResolver implements DependencyResolverInterface
         $this->cache = $cache ?? new NullCache();
     }
 
-    public function resolveDependencies(string $dependentClass, string $dependentMethod): array
+    public function resolveDependencies($callable): array
     {
-        $dependenciesKey = $this->getDependenciesKey($dependentClass, $dependentMethod);
+        $dependenciesKey = $this->getDependenciesKey($callable);
 
         try {
             $dependencies = $this->cache->fetch($dependenciesKey);
         } catch (CacheItemNotFoundException $e) {
-            $dependencies = ClassHelper::getParameters($dependentClass, $dependentMethod);
+            $dependencies = InstanceHelper::getParameters($callable);
             $this->cache->save($dependenciesKey, $dependencies);
         }
 
         return $dependencies;
     }
 
-    private function getDependenciesKey(string $class, string $method = '__construct'): string
+    private function getDependenciesKey($callable): string
     {
-        return sprintf('%s::%s', str_replace('\\', '_', $class), $method);
+        return is_object($callable) ? spl_object_hash($callable) : md5(serialize($callable));
     }
 }
