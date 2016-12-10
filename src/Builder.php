@@ -3,6 +3,7 @@
 namespace Hgraca\MicroDI;
 
 use Hgraca\Helper\InstanceHelper;
+use Hgraca\MicroDI\DependencyResolver\DependencyResolverInterface;
 use Hgraca\MicroDI\Exception\CanNotInstantiateDependenciesException;
 use Hgraca\MicroDI\Port\ContainerInterface;
 use InvalidArgumentException;
@@ -27,30 +28,34 @@ final class Builder implements BuilderInterface
         $this->dependencyResolver = $dependencyResolver;
     }
 
-    /**
-     * @throws CanNotInstantiateDependenciesException
-     */
-    public function build(string $class, array $arguments = [])
+    public function getInstance(string $class, array $arguments = [])
     {
         if (!$this->container->hasInstance($class)) {
-            $dependencies = $this->buildDependencies([$class, '__construct'], $arguments);
-
-            $this->container->addInstance(InstanceHelper::createInstance($class, $dependencies));
+            $instance = $this->buildInstance($class, $arguments);
+            $this->container->addInstance($instance);
         }
 
         return $this->container->getInstance($class);
     }
 
+    public function buildInstance(string $class, array $arguments = [])
+    {
+        return InstanceHelper::createInstance(
+            $class,
+            $this->buildDependencies([$class, '__construct'], $arguments)
+        );
+    }
+
     public function buildFromFactory(string $factoryClass, array $arguments = [])
     {
-        if (!is_a($factoryClass, FactoryInterface::class, true)) {
+        if (!is_a($factoryClass, FactoryInterface::class, $allowString = true)) {
             throw new InvalidArgumentException(
                 "The given factory class $factoryClass must implement " . FactoryInterface::class
             );
         }
 
         /** @var FactoryInterface $factory */
-        $factory = $this->build($factoryClass, $arguments);
+        $factory = $this->getInstance($factoryClass, $arguments);
 
         $context = $this->container->hasFactoryContext($factoryClass)
             ? $this->container->getFactoryContext($factoryClass)
@@ -59,95 +64,81 @@ final class Builder implements BuilderInterface
         return $factory->create($context);
     }
 
-    /**
-     * @throws CanNotInstantiateDependenciesException
-     */
     public function buildDependencies(array $callable, array $arguments = []): array
     {
         $dependentClass = is_string($callable[0]) ? $callable[0] : get_class($callable[0]);
-        $dependentMethod = $callable[1];
+        $dependentMethod = $callable[1] ?? '__construct';
 
         $dependencies = $this->dependencyResolver->resolveDependencies($dependentClass, $dependentMethod);
 
-        return $this->instantiateDependencies($dependentClass, $dependencies, $arguments);
+        return $this->prepareDependencies($dependentClass, $dependencies, $arguments);
     }
 
-    /**
-     * @throws CanNotInstantiateDependenciesException
-     */
-    private function instantiateDependencies(string $dependentClass, array $parameters, array $arguments): array
+    private function prepareDependencies(string $dependentClass, array $parameters, array $arguments): array
     {
         $dependencies = [];
 
         foreach ($parameters as $parameter) {
-            $dependencies = $this->setParameterArgument($dependentClass, $arguments, $parameter);
+            $dependencies[$parameter['name']] = $this->getParameterArgument($dependentClass, $parameter, $arguments);
         }
 
         return $dependencies;
     }
 
-    /**
-     * @throws CanNotInstantiateDependenciesException
-     */
-    private function setParameterArgument(string $dependentClass, array $arguments, array $parameter)
+    private function getParameterArgument(string $dependentClass, array $parameter, array $arguments)
     {
         $parameterName = $parameter['name'];
         switch (true) {
-            case $this->dependencyIsInGivenArguments($parameterName, $arguments):
-                $this->setDependencyFromArguments($dependencies, $parameterName, $arguments);
-                break;
-            case $this->dependencyIsClassOrInterface($parameter):
-                $this->setDependencyRecursively($dependencies, $dependentClass, $parameterName, $parameter);
-                break;
-            case $this->dependencyNameIsInContainer($parameterName):
-                $this->setDependencyFromParameterInContainer($parameterName, $dependencies);
-                break;
+            case $this->isDependencyInGivenArguments($parameterName, $arguments):
+                return $this->getDependencyFromArguments($parameterName, $arguments);
+            case $this->isDependencyClassOrInterface($parameter):
+                return $this->getDependencyRecursively($dependentClass, $parameter);
+            case $this->isDependencyNameInContainer($parameterName):
+                return $this->getDependencyFromParameterInContainer($parameterName);
             default:
                 throw new CanNotInstantiateDependenciesException(
-                    "Could not instantiate dependency for class '$dependentClass', parameter '$parameterName'."
+                    "Could not get dependency for class '$dependentClass', parameter '$parameterName'."
                 );
         }
-
-        return $dependencies;
     }
 
-    private function dependencyIsInGivenArguments(string $parameterName, array $arguments): bool
+    private function isDependencyInGivenArguments(string $parameterName, array $arguments): bool
     {
         return array_key_exists($parameterName, $arguments);
     }
 
-    private function setDependencyFromArguments(array &$dependencies, string $parameterName, array $arguments)
+    private function getDependencyFromArguments(string $parameterName, array $arguments)
     {
-        return $dependencies[$parameterName] = $arguments[$parameterName];
+        return $arguments[$parameterName];
     }
 
-    private function dependencyIsClassOrInterface(array $parameter): bool
+    private function isDependencyClassOrInterface(array $parameter): bool
     {
         return isset($parameter['class']) &&
             (class_exists($parameter['class']) || interface_exists($parameter['class']));
     }
 
-    private function setDependencyRecursively(
-        array &$dependencies,
+    private function getDependencyRecursively(
         string $dependentClass,
-        string $parameterName,
         array $parameter
     ) {
         $this->pushDependentClass($dependentClass);
-        $this->pushArgumentName($parameterName);
-        $dependencies[$parameterName] = $this->build($parameter['class'], []);
+        $this->pushArgumentName($parameter['name']);
+        $dependency = $this->getInstance($parameter['class']);
         $this->popDependentClass();
         $this->popArgumentName();
+
+        return $dependency;
     }
 
-    private function dependencyNameIsInContainer(string $parameterName): bool
+    private function isDependencyNameInContainer(string $parameterName): bool
     {
         return $this->container->hasArgument($parameterName);
     }
 
-    private function setDependencyFromParameterInContainer(string $parameterName, array &$dependencies)
+    private function getDependencyFromParameterInContainer(string $parameterName)
     {
-        $dependencies[$parameterName] = $this->container->getArgument($parameterName);
+        return $this->container->getArgument($parameterName);
     }
 
     private function pushDependentClass(string $dependentClass)

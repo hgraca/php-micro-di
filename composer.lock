@@ -9,16 +9,16 @@
     "packages": [
         {
             "name": "hgraca/cache",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hgraca/php-cache.git",
-                "reference": "d1927bee7f1a6faa43c5e30d930ccea71ce6774e"
+                "reference": "0cf6ab2e5ff2c8effcc2ebc93e1f87b6b45e4abf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/d1927bee7f1a6faa43c5e30d930ccea71ce6774e",
-                "reference": "d1927bee7f1a6faa43c5e30d930ccea71ce6774e",
+                "url": "https://api.github.com/repos/hgraca/php-cache/zipball/0cf6ab2e5ff2c8effcc2ebc93e1f87b6b45e4abf",
+                "reference": "0cf6ab2e5ff2c8effcc2ebc93e1f87b6b45e4abf",
                 "shasum": ""
             },
             "require": {
@@ -57,7 +57,7 @@
                 }
             ],
             "description": "A PHP library to handle caching.",
-            "time": "2016-12-06 20:30:39"
+            "time": "2016-12-07 20:58:45"
         },
         {
             "name": "hgraca/file-system",

@@ -1,9 +1,10 @@
 <?php
 
-namespace Hgraca\MicroDI;
+namespace Hgraca\MicroDI\DependencyResolver;
 
 use Hgraca\Cache\CacheInterface;
 use Hgraca\Cache\Exception\CacheItemNotFoundException;
+use Hgraca\Cache\Null\NullCache;
 use Hgraca\Helper\ClassHelper;
 
 final class DependencyResolver implements DependencyResolverInterface
@@ -11,9 +12,9 @@ final class DependencyResolver implements DependencyResolverInterface
     /** @var CacheInterface */
     private $cache;
 
-    public function __construct(CacheInterface $cache)
+    public function __construct(CacheInterface $cache = null)
     {
-        $this->cache = $cache;
+        $this->cache = $cache ?? new NullCache();
     }
 
     public function resolveDependencies(string $dependentClass, string $dependentMethod): array

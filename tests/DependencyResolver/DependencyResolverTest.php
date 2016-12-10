@@ -1,10 +1,10 @@
 <?php
 
-namespace Hgraca\MicroDI\Test;
+namespace Hgraca\MicroDI\Test\DependencyResolver;
 
 use Hgraca\Cache\CacheInterface;
 use Hgraca\Cache\Exception\CacheItemNotFoundException;
-use Hgraca\MicroDI\DependencyResolver;
+use Hgraca\MicroDI\DependencyResolver\DependencyResolver;
 use Hgraca\MicroDI\Test\Stub\Foo;
 use Mockery;
 use PHPUnit_Framework_TestCase;

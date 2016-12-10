@@ -2,6 +2,10 @@
 
 namespace Hgraca\MicroDI\Adapter\Pimple;
 
+use Hgraca\MicroDI\Adapter\Exception\ArgumentNotFoundException;
+use Hgraca\MicroDI\Adapter\Exception\ClassOrInterfaceNotFoundException;
+use Hgraca\MicroDI\Adapter\Exception\FactoryContextNotFoundException;
+use Hgraca\MicroDI\Adapter\Exception\InstanceNotFoundException;
 use Hgraca\MicroDI\Adapter\Exception\NotAnObjectException;
 use Hgraca\MicroDI\BuilderInterface;
 use Hgraca\MicroDI\Port\ContainerInterface;
@@ -9,21 +13,19 @@ use Pimple\Container;
 
 final class PimpleAdapter implements ContainerInterface
 {
+    const FACTORY_CONTEXT_POSTFIX = '.context';
+
     /** @var Container */
     private $container;
 
-    /** @var BuilderInterface */
-    private $builder;
-
-    public function __construct(Container $container, BuilderInterface $builder)
+    public function __construct(Container $container)
     {
         $this->container = $container;
-        $this->builder = $builder;
     }
 
-    public function hasInstance(string $class): bool
+    public function addArgument(string $parameter, $argument)
     {
-        return $this->hasKey($class);
+        $this->addKey($parameter, $argument);
     }
 
     public function hasArgument(string $parameter): bool
@@ -31,46 +33,88 @@ final class PimpleAdapter implements ContainerInterface
         return $this->hasKey($parameter);
     }
 
+    /**
+     * @throws ArgumentNotFoundException
+     *
+     * @return mixed
+     */
+    public function getArgument(string $parameter)
+    {
+        if (! $this->hasArgument($parameter)) {
+            throw new ArgumentNotFoundException();
+        }
+
+        return $this->getKey($parameter);
+    }
+
+    public function addFactoryContext(string $factoryClass, array $context)
+    {
+        return $this->addKey($this->generateFactoryContextKey($factoryClass), $context);
+    }
+
     public function hasFactoryContext(string $factoryClass): bool
     {
         return $this->hasKey($this->generateFactoryContextKey($factoryClass));
     }
 
-    /**
-     * @return mixed
-     */
-    public function getInstance(string $class)
-    {
-        return $this->getKey($class);
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getArgument(string $parameter)
-    {
-        return $this->getKey($parameter);
-    }
-
     public function getFactoryContext(string $factoryClass): array
     {
+        if (! $this->hasFactoryContext($factoryClass)) {
+            throw new FactoryContextNotFoundException();
+        }
+
         return $this->getKey($this->generateFactoryContextKey($factoryClass));
     }
 
     public function addInstance($instance)
     {
-        if (!is_object($instance)) {
+        if (! is_object($instance)) {
             throw new NotAnObjectException();
         }
 
         $this->container[get_class($instance)] = $instance;
     }
 
-    public function addInstanceLazyLoad(string $class, array $arguments = [])
+    public function addInstanceLazyLoad(BuilderInterface $builder, string $class, array $arguments = [])
     {
-        $this->container[$class] = function () use ($class, $arguments) {
-            return $this->builder->build($class, $arguments);
+        $this->assertClassOrInterfaceExists($class);
+
+        $this->container[$class] = function () use ($builder, $class, $arguments) {
+            return $builder->buildInstance($class, $arguments);
         };
+    }
+
+    /**
+     * @throws ClassOrInterfaceNotFoundException
+     */
+    public function hasInstance(string $class): bool
+    {
+        $this->assertClassOrInterfaceExists($class);
+
+        return $this->hasKey($class);
+    }
+
+    /**
+     * @throws InstanceNotFoundException
+     * @throws ClassOrInterfaceNotFoundException
+     *
+     * @return mixed
+     */
+    public function getInstance(string $class)
+    {
+        if (! $this->hasInstance($class)) {
+            throw new InstanceNotFoundException();
+        }
+
+        return $this->getKey($class);
+    }
+
+    /**
+     * @return mixed
+     */
+    private function addKey(string $key, $content)
+    {
+        return $this->container[$key] = $content;
     }
 
     private function hasKey(string $key): bool
@@ -88,6 +132,16 @@ final class PimpleAdapter implements ContainerInterface
 
     private function generateFactoryContextKey(string $factoryClass): string
     {
-        return $factoryClass . '.context';
+        return $factoryClass . self::FACTORY_CONTEXT_POSTFIX;
+    }
+
+    /**
+     * @throws ClassOrInterfaceNotFoundException
+     */
+    private function assertClassOrInterfaceExists(string $class)
+    {
+        if (! class_exists($class) && ! interface_exists($class)) {
+            throw new ClassOrInterfaceNotFoundException();
+        }
     }
 }

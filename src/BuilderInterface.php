@@ -2,16 +2,26 @@
 
 namespace Hgraca\MicroDI;
 
+use Hgraca\MicroDI\Exception\CanNotInstantiateDependenciesException;
 use InvalidArgumentException;
 
 interface BuilderInterface
 {
     /**
-     * Builds a new instance, resolving all its dependencies
+     * Tries to get an instance from the container, if not builds a new instance, adding it to the container
      *
      * @return mixed
      */
-    public function build(string $class, array $arguments = []);
+    public function getInstance(string $class, array $arguments = []);
+
+    /**
+     * Builds a new instance, resolving all its dependencies
+     *
+     * @throws CanNotInstantiateDependenciesException
+     *
+     * @return mixed
+     */
+    public function buildInstance(string $class, array $arguments = []);
 
     /**
      * Instantiates the factory and calls the `create` method on it.

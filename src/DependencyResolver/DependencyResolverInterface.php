@@ -1,6 +1,6 @@
 <?php
 
-namespace Hgraca\MicroDI;
+namespace Hgraca\MicroDI\DependencyResolver;
 
 interface DependencyResolverInterface
 {
