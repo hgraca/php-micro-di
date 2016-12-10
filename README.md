@@ -52,5 +52,3 @@ a method with  `Builder::call`, will fe filled in the following priority:
 4. If it fails to find all mandatory dependencies, it will throw an error while instantiating the class.
 
 ## Todo
-
-- Make it [work for closures](http://stackoverflow.com/questions/19198804/deducing-php-closure-parameters)
